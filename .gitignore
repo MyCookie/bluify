@@ -1,0 +1,3 @@
+# ignore temp files created by krita
+*.kra~
+

@@ -4,30 +4,28 @@ var url = null;
 // return a handler to notify the user of a success
 function getSuccessNotificationHandler() {
     return function() {
+        console.log("Successfully removed " + url + " from browser history.");
+
         var opt = {
             type : "basic",
             iconUrl : "bluify-48.png",
-            title : "Success",
+            title : "bluifyed!",
             message : "Successfully removed " + url + " from history."
         }
 
-        chrome.notifications.create({
-            options : opt
-        });
+        chrome.notifications.create(opt);
     };
 };
 
 // return a handler to search for instances of that url in the browser's history
 function getHistoryDeletetionHandler() {
-    return function(url_arr) {
-        console.log("Found " + url_arr.length + " visits to URL.");
+    return function(visits_arr) {
+        console.log("Found " + visits_arr.length + " visits to " + url + ".");
 
         // delete history only if any url visits found
-        if (url_arr > 0) {
-            chrome.history.deleteUrl({
-                url : url,
-                callback : getSuccessNotificationHandler()
-            });
+        if (visits_arr.length > 0) {
+            console.log("Attempting to remove " + url + " from browser history.");
+            chrome.history.deleteUrl({ url : url }, getSuccessNotificationHandler());
         } else { // notify the user that no url visits were found
             var opt = {
                 type : "basic",
@@ -36,9 +34,7 @@ function getHistoryDeletetionHandler() {
                 message : "No vists to " + url + " found in history."
             }
 
-            chrome.notifications.create({
-                options : opt
-            });
+            chrome.notifications.create(opt);
         }
     }
 }
@@ -47,17 +43,9 @@ function getHistoryDeletetionHandler() {
 function getClickHandler() {
     return function(info, tab) {
         url = info.linkUrl;
-        console.log("Attempting to remove " + url + " from browser history.");
 
         // find any visits to the given url first
-        var opt = {
-            url : info.linkUrl
-        }
-
-        chrome.history.getVisits({
-            details : opt,
-            callback : getHistoryDeletetionHandler()
-        });
+        chrome.history.getVisits({ url : url }, getHistoryDeletetionHandler());
     };
 };
 
@@ -66,5 +54,5 @@ chrome.contextMenus.create ({
     "title" : "Forget this link",
     "type" : "normal",
     "contexts" : ["link"],
-    "onClick" : getClickHandler()
+    "onclick" : getClickHandler()
 });

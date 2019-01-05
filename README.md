@@ -12,7 +12,7 @@ A Chrome/Chromium v42+ extension. Does not remove local data, such as cookies, D
 
 ## References
 
--https://developer.chrome.com/extensions/devguide
--https://developer.chrome.com/extensions/contextMenus
--https://developer.chrome.com/extensions/history
--https://developer.chrome.com/apps/notifications
+- https://developer.chrome.com/extensions/devguide
+- https://developer.chrome.com/extensions/contextMenus
+- https://developer.chrome.com/extensions/history
+- https://developer.chrome.com/apps/notifications

@@ -7,6 +7,7 @@
     "contextMenus",
     "tabs",
     "history",
+    "browsingData",
     "notifications"
   ],
   "minimum_chrome_version" : "42.0.0.0",
